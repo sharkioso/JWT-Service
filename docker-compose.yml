@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: jwtPostgres
+    environment:
+      POSTGRES_USER: jwt
+      POSTGRES_PASSWORD: jwt
+      POSTGRES_DB: jwt_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/jwt_data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: jwtPgAdmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  jwt_postgres_data:
