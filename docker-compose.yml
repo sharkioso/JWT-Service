@@ -8,11 +8,11 @@ services:
       POSTGRES_USER: jwt
       POSTGRES_PASSWORD: jwt
       POSTGRES_DB: jwt_db
-      PGDATA: /var/lib/postgresql/data/jwt_data
+      PGDATA: /var/lib/postgresql/data/jwt_datas
     ports:
       - "5432:5432"
     volumes:
-      - jwt_postgres_data:/var/lib/postgresql/data
+      - jwt_postgres_datas:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
@@ -26,4 +26,4 @@ services:
       - postgres
 
 volumes:
-  jwt_postgres_data:
+  jwt_postgres_datas:

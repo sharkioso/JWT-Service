@@ -4,6 +4,7 @@ import java.security.Key;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Component
+@PropertySource("classpath:application-secret.properties")
 public class JwtUtils {
 
     @Value("${app.jwt.secret}")
@@ -25,7 +27,7 @@ public class JwtUtils {
     @Value("${app.jwt.expiration.ms}")
     private int jwtExpirationMs;
 
-    @Value("${app.jwt.refresh.expiration.ms=604800000}")
+    @Value("${app.jwt.refresh.expiration.ms}")
     private int jwtRefreshDurationMs;
 
     public String generateJwtToken(Authentication authentication) {
