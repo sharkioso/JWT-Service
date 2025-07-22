@@ -7,6 +7,7 @@ import com.example.JWTService.entity.User;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.JWTService.DTO.SignUpDTO;
@@ -20,15 +21,16 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public void createUser(SignUpDTO signUpDTO) {
+    public User createUser(SignUpDTO signUpDTO) {
         User user = new User();
         user.setUsername(signUpDTO.getUsername());
         user.setEmail(signUpDTO.getEmail());
-        user.setPassword(signUpDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
         user.setRoles(resolveRoles(signUpDTO.getRoles()));
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     private Set<Role> resolveRoles(Set<String> reqRoles) {
@@ -43,7 +45,7 @@ public class UserService {
 
     private Role getDefaultRole() {
         return roleRepository.findByName(ERole.GUEST)
-                .orElseThrow(() -> new IllegalStateException("Gues Role Not Found"));
+                .orElseThrow(() -> new IllegalStateException("Guest Role Not Found"));
     }
 
     private Role findRoleByName(String role) {

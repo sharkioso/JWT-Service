@@ -1,5 +1,7 @@
 package com.example.JWTService.service;
 
+import com.example.JWTService.entity.User;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,11 +14,13 @@ import com.example.JWTService.DTO.MessageResponseDTO;
 import com.example.JWTService.DTO.SignUpDTO;
 import com.example.JWTService.security.jwt.JwtUtils;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserService userService;
@@ -50,8 +54,13 @@ public class AuthService {
 
     public MessageResponseDTO registerUser(SignUpDTO signUpDTO)
     {
-        userService.createUser(signUpDTO);
-        return new MessageResponseDTO("Register successfully");
-
+        try{
+            userService.createUser(signUpDTO);
+            String mes = "Register successfully with email"+signUpDTO.getEmail();
+            return new MessageResponseDTO(mes);
+        }catch (DataIntegrityViolationException e)
+        {
+            throw new IllegalArgumentException("username or email exists");
+        }
     }
 }
