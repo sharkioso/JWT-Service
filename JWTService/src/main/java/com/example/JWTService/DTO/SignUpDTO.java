@@ -1,5 +1,7 @@
 package com.example.JWTService.DTO;
 
+import java.util.Set;
+
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,4 +17,5 @@ public class SignUpDTO {
     private String email;
 
     private String password;
+    private Set<String> roles;
 }
