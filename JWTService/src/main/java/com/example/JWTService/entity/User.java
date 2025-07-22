@@ -30,7 +30,7 @@ public class User {
 
     @NotBlank
     @Column(unique = true)
-    private String login;
+    private String username;
 
     @NotBlank
     private String password;

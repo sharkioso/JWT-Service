@@ -2,8 +2,10 @@ package com.example.JWTService.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.JWTService.entity.User;
@@ -36,7 +38,7 @@ public class UserDetailsImpl implements UserDetails {
 
         return new UserDetailsImpl(
                 user.getId(),
-                user.getLogin(),
+                user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities);
