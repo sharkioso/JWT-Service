@@ -28,42 +28,36 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signin")
-    public ResponseEntity<JwtResponseDTO> authentiticateUser(@RequestBody LoginDTO loginDTO)
-    {   
+    public ResponseEntity<JwtResponseDTO> authentiticateUser(@RequestBody LoginDTO loginDTO) {
         return ResponseEntity.ok(authService.authenicateUser(loginDTO));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<MessageResponseDTO> registerUser(@RequestBody SignUpDTO signUpDTO)
-    {
+    public ResponseEntity<MessageResponseDTO> registerUser(@RequestBody SignUpDTO signUpDTO) {
         System.out.print("Sign UP ");
         System.out.println(signUpDTO.toString());
         return ResponseEntity.ok(authService.registerUser(signUpDTO));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<JwtResponseDTO> refreshUserToken(@RequestHeader("Authorization") String authHeader )
-    {
+    public ResponseEntity<JwtResponseDTO> refreshUserToken(@RequestHeader("Authorization") String authHeader) {
         return ResponseEntity.ok(authService.refreshToken(authHeader));
     }
 
     @GetMapping("/all")
-    public String publicCheck()
-    {
+    public String publicCheck() {
         return "Public content";
     }
 
     @GetMapping("/user")
     @PreAuthorize("hasAuthority('ROLE_PREMIUM_USER') or hasAuthority('ROLE_ADMIN')")
-    public String userCheck()
-    {
+    public String userCheck() {
         return "User content";
     }
 
     @GetMapping("/admin")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String adminCheck()
-    {
+    public String adminCheck() {
         return "Admin content ";
     }
 }

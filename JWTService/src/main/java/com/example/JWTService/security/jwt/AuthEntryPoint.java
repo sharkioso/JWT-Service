@@ -18,9 +18,9 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException) throws IOException, ServletException {
         String jsonResponce = String.format(
-            "{\"status\" : 401, \"error\" : \"Unauthorized\", \"message\" :\"%s\", \"path\" : \"%s\"}",
-            authException.getMessage(),
-            request.getRequestURI());
+                "{\"status\" : 401, \"error\" : \"Unauthorized\", \"message\" :\"%s\", \"path\" : \"%s\"}",
+                authException.getMessage(),
+                request.getRequestURI());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write(jsonResponce);
