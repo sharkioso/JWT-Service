@@ -1,15 +1,12 @@
 package com.example.JWTService.service;
 
-
 import com.example.JWTService.entity.ERole;
 import com.example.JWTService.entity.Role;
 import com.example.JWTService.entity.User;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.JWTService.DTO.SignUpDTO;
@@ -23,9 +20,8 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public void createUser(SignUpDTO signUpDTO){
+    public void createUser(SignUpDTO signUpDTO) {
         User user = new User();
         user.setUsername(signUpDTO.getUsername());
         user.setEmail(signUpDTO.getEmail());
@@ -35,28 +31,24 @@ public class UserService {
         userRepository.save(user);
     }
 
-    private Set<Role> resolveRoles(Set<String> reqRoles)
-    {
-        if (reqRoles == null || reqRoles.isEmpty()){
+    private Set<Role> resolveRoles(Set<String> reqRoles) {
+        if (reqRoles == null || reqRoles.isEmpty()) {
             return Set.of(getDefaultRole());
         }
-        
+
         return reqRoles.stream()
-                .map(role->findRoleByName(role))
+                .map(role -> findRoleByName(role))
                 .collect(Collectors.toSet());
     }
 
-    private Role getDefaultRole()
-    {
+    private Role getDefaultRole() {
         return roleRepository.findByName(ERole.GUEST)
-            .orElseThrow(()-> new IllegalStateException("Gues Role Not Found"));
+                .orElseThrow(() -> new IllegalStateException("Gues Role Not Found"));
     }
 
-    private Role findRoleByName(String role)
-    {
+    private Role findRoleByName(String role) {
         return roleRepository.findByName(ERole.valueOf(role))
-                .orElseGet(()->getDefaultRole());
+                .orElseGet(() -> getDefaultRole());
     }
-    
 
 }
