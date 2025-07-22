@@ -11,7 +11,7 @@ import com.example.JWTService.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByLogin(String login);
+    Optional<User> findByUsername(String login);
 
     Optional<User> findByEmail(String email);
 

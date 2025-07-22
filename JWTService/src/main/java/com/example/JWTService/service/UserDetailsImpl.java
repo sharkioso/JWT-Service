@@ -20,8 +20,6 @@ public class UserDetailsImpl implements UserDetails {
 
     private Long id;
 
-    // здесь юзернейм вместо логина сделан осознано, что бы не писать лишний геттер,
-    // а его прописал ломбок
     private String username;
 
     private String email;
